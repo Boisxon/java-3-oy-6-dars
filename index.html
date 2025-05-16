@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+    
+    
+    
+    <!-- <button id="btn"> Button
+    </button>    -->
+    <button id="btn">Mening joylashuvimni ko‘rsat</button>
+
+
+    <div id="card" class="card">
+        <div class="bg"></div>
+        <div class="blob"></div>
+      </div>
+    
+    <ul id="wrapper">
+
+        
+        
+    </ul>
+    <script>
+        const joylashuv = document.getElementById("btn");
+        const box = document.getElementById("card");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                box.innerHTML = "<p style='color: red;'>Brauzeringiz Geolocation API'ni qo‘llab-quvvatlamaydi.</p>";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&z=12&output=embed`;
+
+            box.innerHTML = `
+                <p><strong>Kenglik (Latitude) :</strong> ${latitude}</p>
+                <p><strong>Uzunlik (Longitude) :</strong> ${longitude}</p>
+                <iframe src="${mapUrl}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            `;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    box.innerHTML = "<p style='color: red;'>Foydalanuvchi joylashuvga ruxsat bermadi.</p>";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    box.innerHTML = "<p style='color: red;'>Joylashuv ma’lumotlari mavjud emas.</p>";
+                    break;
+                case error.TIMEOUT:
+                    box.innerHTML = "<p style='color: red;'>Joylashuv so‘rovi vaqt tugashiga uchradi.</p>";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    box.innerHTML = "<p style='color: red;'>Noma’lum xato yuz berdi.</p>";
+                    break;
+            }
+        }
+
+        joylashuv.addEventListener("click", getLocation);
+    </script>
+    
+    
+    <script src="./main.js"></script>
+</body>
+</html>
